@@ -1,1 +1,6 @@
-[]
+[
+  { "name": "Niagara Peninsula", "country": "Canada" },
+  { "name": "Piedmont", "country": "Italy" },
+  { "name": "Veneto", "country": "Italy" },
+  { "name": "Tuscany", "country": "Italy" }
+]
