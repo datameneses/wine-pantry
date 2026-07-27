@@ -1,12 +1,12 @@
 # Wine Pantry
 
-A personal archive of a home wine hobby: wines tried, charcuterie boards, main course pairings, and wine bars visited.
+A personal archive of a home wine hobby: wines tried, charcuterie boards, main course pairings, wine bars visited, and favorite grapes and regions worth knowing.
 
 Plain HTML/CSS/JS, no build step. Not hosted yet.
 
 ## Structure
 
-- `index.html`, `boards.html`, `cookbook.html`, `winebars.html`, `references.html`, `about.html` — one page per section
+- `index.html`, `boards.html`, `cookbook.html`, `winebars.html`, `grapes.html`, `regions.html`, `references.html`, `about.html` — one page per section
 - `css/style.css` — shared styles
 - `js/main.js` — shared nav + data-rendering helpers
 - `data/*.json` — one JSON file per section; each page reads its file and renders cards
