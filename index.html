@@ -300,7 +300,7 @@
       if (currentSort === "country") {
         list.sort((a, b) => (a.origin && a.origin.country || "").localeCompare(b.origin && b.origin.country || ""));
       } else if (currentSort === "type") {
-        list.sort((a, b) => typeRank(a.type) - typeRank(b.type));
+        list.sort((a, b) => typeRank(b.type) - typeRank(a.type));
       } else if (currentSort === "winery") {
         list.sort((a, b) => (a.winery || "").localeCompare(b.winery || ""));
       } else if (currentSort === "rating") {
