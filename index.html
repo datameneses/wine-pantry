@@ -335,7 +335,10 @@
 
         const countries = [...new Set(data.map((w) => w.origin && w.origin.country).filter(Boolean))].sort();
         const wineries = [...new Set(data.map((w) => w.winery).filter(Boolean))].sort();
-        const typesPresent = TYPE_ORDER.filter((t) => data.some((w) => w.type === t));
+        const typeCounts = countBy(data, (w) => w.type);
+        const typesPresent = TYPE_ORDER
+          .filter((t) => typeCounts[t])
+          .sort((a, b) => typeCounts[b] - typeCounts[a]);
 
         populateSelect("filter-country", countries);
         populateSelect("filter-type", typesPresent);
