@@ -83,9 +83,10 @@
   <footer class="site-footer">Wine Pantry (a personal project)</footer>
   <script src="js/main.js"></script>
   <script>
-    const TYPE_ORDER = ["White", "Rosé", "Red", "Sparkling", "Dessert"];
+    const TYPE_ORDER = ["White", "Orange", "Rosé", "Red", "Sparkling", "Dessert"];
     const TYPE_COLORS = {
       "White": "#E9DFA6",
+      "Orange": "#E2872F",
       "Rosé": "#E8A0A0",
       "Red": "#7B1E3A",
       "Sparkling": "#D4AF37",
@@ -198,6 +199,12 @@
       return value ? `<li><strong>${label}:</strong> ${value}</li>` : "";
     }
 
+    function formatDate(iso) {
+      if (!iso) return "";
+      const [y, m, d] = iso.split("-").map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+    }
+
     function renderWineryLink(item) {
       const links = [];
       if (item.wineryUrl) links.push(`<a href="${item.wineryUrl}" target="_blank" rel="noopener">${item.winery}</a>`);
@@ -262,6 +269,7 @@
               ${field("ABV", item.abv)}
               ${field("Serving temp", item.servingTemp)}
               ${field("Food pairing", item.foodPairing)}
+              ${field("Date logged", formatDate(item.dateLogged))}
             </ul>
             ${renderWineryLink(item)}
           </div>
