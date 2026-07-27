@@ -179,12 +179,13 @@
     function renderDashboard(data) {
       const byCountry = countBy(data, (w) => w.origin && w.origin.country);
       const byWinery = countBy(data, (w) => w.winery);
+      const byWineryRepeat = Object.fromEntries(Object.entries(byWinery).filter(([, count]) => count > 1));
       const byType = countBy(data, (w) => w.type);
       const byWorld = countBy(data, (w) => w.worldStyle);
 
       document.getElementById("wines-dashboard").innerHTML =
         renderHBarChart("Wines by Country", byCountry) +
-        renderHBarChart("Wines by Winery", byWinery) +
+        renderHBarChart("Wines by Winery", byWineryRepeat) +
         renderTypeChart(byType) +
         renderDonutChart(byWorld);
     }
