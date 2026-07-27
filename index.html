@@ -126,8 +126,9 @@
     }
 
     function renderTypeChart(counts) {
-      const max = Math.max(...TYPE_ORDER.map((t) => counts[t] || 0), 1);
-      const cols = TYPE_ORDER
+      const typesByCount = TYPE_ORDER.slice().sort((a, b) => (counts[b] || 0) - (counts[a] || 0));
+      const max = Math.max(...typesByCount.map((t) => counts[t] || 0), 1);
+      const cols = typesByCount
         .map((type) => {
           const value = counts[type] || 0;
           const heightPct = value ? (value / max) * 100 : 2;
@@ -300,7 +301,7 @@
       if (currentSort === "country") {
         list.sort((a, b) => (a.origin && a.origin.country || "").localeCompare(b.origin && b.origin.country || ""));
       } else if (currentSort === "type") {
-        list.sort((a, b) => typeRank(b.type) - typeRank(a.type));
+        list.sort((a, b) => typeRank(a.type) - typeRank(b.type));
       } else if (currentSort === "winery") {
         list.sort((a, b) => (a.winery || "").localeCompare(b.winery || ""));
       } else if (currentSort === "rating") {
