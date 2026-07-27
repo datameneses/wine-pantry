@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>References · Wine Pantry</title>
+  <meta name="description" content="People, books, and channels worth checking out for wine.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Wine Pantry">
+  <meta property="og:title" content="References · Wine Pantry">
+  <meta property="og:description" content="People, books, and channels worth checking out for wine.">
+  <meta property="og:url" content="https://datameneses.github.io/wine-pantry/references.html">
+  <meta property="og:image" content="https://datameneses.github.io/wine-pantry/images/social-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="References · Wine Pantry">
+  <meta name="twitter:description" content="People, books, and channels worth checking out for wine.">
+  <meta name="twitter:image" content="https://datameneses.github.io/wine-pantry/images/social-card.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">Wine Pantry</a>
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav">
+      <a href="index.html">Wines</a>
+      <a href="boards.html">Boards</a>
+      <a href="cookbook.html">Cookbook</a>
+      <a href="winebars.html">Wine Bars</a>
+      <a href="references.html">References</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>References</h1>
+    <p class="page-intro">People worth checking out.</p>
+    <div class="card-grid" id="references-list"></div>
+  </main>
+
+  <footer class="site-footer">Wine Pantry (a personal project)</footer>
+  <script src="js/main.js"></script>
+  <script>
+    function renderBooks(books) {
+      if (!books || !books.length) return "";
+      const links = books
+        .map((b) => `<a href="${b.url}" target="_blank" rel="noopener">${b.title}</a>`)
+        .join(" · ");
+      return `<p class="card-meta">Books: ${links}</p>`;
+    }
+
+    loadAndRender("data/references.json", "references-list", (item) => `
+      <article class="card">
+        <h3>${item.name}</h3>
+        ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
+        ${item.link ? `<p class="card-meta"><a href="${item.link}" target="_blank" rel="noopener">${item.platform || "Link"} channel</a></p>` : ""}
+        ${renderBooks(item.books)}
+        ${item.why ? `<p>${item.why}</p>` : ""}
+      </article>
+    `);
+  </script>
+</body>
+</html>

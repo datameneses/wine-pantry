@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Wine Folly",
+    "platform": "Website",
+    "link": "https://winefolly.com/",
+    "books": [
+      { "title": "Wine Folly: The Essential Guide to Wine", "url": "https://winefolly.com/product/wine-folly-book/" },
+      { "title": "Wine Folly: Magnum Edition", "url": "https://winefolly.com/product/wine-folly-magnum-edition-book/" }
+    ],
+    "why": "Wine Folly, started by Madeline Puckette and Justin Hammack, breaks down wine into approachable, visual guides on grapes, regions, tasting, and pairing. The books are a great reference for building a working vocabulary around wine without needing formal sommelier training."
+  }
+]

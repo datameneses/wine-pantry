@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wine Bars · Wine Pantry</title>
+  <meta name="description" content="Wine bars visited, pinned on a map with notes and links.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Wine Pantry">
+  <meta property="og:title" content="Wine Bars · Wine Pantry">
+  <meta property="og:description" content="Wine bars visited, pinned on a map with notes and links.">
+  <meta property="og:url" content="https://datameneses.github.io/wine-pantry/winebars.html">
+  <meta property="og:image" content="https://datameneses.github.io/wine-pantry/images/social-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Wine Bars · Wine Pantry">
+  <meta name="twitter:description" content="Wine bars visited, pinned on a map with notes and links.">
+  <meta name="twitter:image" content="https://datameneses.github.io/wine-pantry/images/social-card.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">Wine Pantry</a>
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav">
+      <a href="index.html">Wines</a>
+      <a href="boards.html">Boards</a>
+      <a href="cookbook.html">Cookbook</a>
+      <a href="winebars.html">Wine Bars</a>
+      <a href="references.html">References</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Wine Bars</h1>
+    <p class="page-intro">Wine bars visited.</p>
+    <div class="map-panel" id="winebars-map"></div>
+    <div class="card-grid" id="winebars-list"></div>
+  </main>
+
+  <footer class="site-footer">Wine Pantry (a personal project)</footer>
+  <script src="js/main.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    function googleMapsUrl(item) {
+      const query = encodeURIComponent(item.location ? `${item.name}, ${item.location}` : item.name);
+      return `https://www.google.com/maps/search/?api=1&query=${query}`;
+    }
+
+    function winebarTemplate(item) {
+      return `
+        <article class="card">
+          ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
+          <h3>${item.name}</h3>
+          <p class="card-meta">${item.location || ""}</p>
+          ${item.dateVisited ? `<p class="card-meta">Visited: ${item.dateVisited}</p>` : ""}
+          ${item.rating ? `<p class="card-meta">Rating: ${item.rating}</p>` : ""}
+          ${item.notes ? `<p>${item.notes}</p>` : ""}
+          <p class="card-meta"><a href="${googleMapsUrl(item)}" target="_blank" rel="noopener">Open in Google Maps</a></p>
+        </article>
+      `;
+    }
+
+    function renderMap(winebars) {
+      const mapEl = document.getElementById("winebars-map");
+      const pinned = winebars.filter((w) => typeof w.lat === "number" && typeof w.lng === "number");
+
+      if (!pinned.length) {
+        mapEl.outerHTML = '<p class="empty-state">No wine bars pinned yet.</p>';
+        return;
+      }
+
+      const map = L.map(mapEl);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
+        maxZoom: 19
+      }).addTo(map);
+
+      pinned.forEach((w) => {
+        L.marker([w.lat, w.lng]).addTo(map).bindPopup(
+          `<strong>${w.name}</strong><br>${w.location || ""}<br><a href="${googleMapsUrl(w)}" target="_blank" rel="noopener">Open in Google Maps</a>`
+        );
+      });
+
+      if (pinned.length === 1) {
+        map.setView([pinned[0].lat, pinned[0].lng], 15);
+      } else {
+        map.fitBounds(L.latLngBounds(pinned.map((w) => [w.lat, w.lng])), { padding: [30, 30] });
+      }
+    }
+
+    fetch("data/winebars.json")
+      .then((res) => res.json())
+      .then((winebars) => {
+        renderMap(winebars);
+
+        const list = document.getElementById("winebars-list");
+        list.innerHTML = winebars.length
+          ? winebars.map(winebarTemplate).join("")
+          : '<p class="empty-state">Nothing here yet.</p>';
+      })
+      .catch((err) => {
+        console.error("Failed to load data/winebars.json", err);
+        document.getElementById("winebars-list").innerHTML =
+          '<p class="empty-state">Could not load data. If you\'re viewing this via file://, try running a local server (e.g. <code>python3 -m http.server</code>) instead.</p>';
+      });
+  </script>
+</body>
+</html>
