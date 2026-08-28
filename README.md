@@ -2,14 +2,16 @@
 
 A personal archive of a home wine hobby: wines tried, charcuterie boards, main course pairings, wine bars visited, and favorite grapes and regions worth knowing.
 
-Plain HTML/CSS/JS, no build step. Not hosted yet.
+Plain HTML/CSS/JS, no build step. Dark theme with a full-bleed, pinned photo background (glassmorphism cards on top) — hosted on GitHub Pages.
 
 ## Structure
 
-- `index.html`, `boards.html`, `cookbook.html`, `winebars.html`, `grapes.html`, `regions.html`, `references.html`, `about.html` — one page per section
-- `css/style.css` — shared styles
-- `js/main.js` — shared nav + data-rendering helpers
-- `data/*.json` — one JSON file per section; each page reads its file and renders cards
+- `index.html` (Wines) — the one section page
+- `about.html` — the personal story, plus Boards, Cookbook, Wine Bars (with a map), Grapes, Regions, and References folded in as full-width scrolling sections, rather than separate nav pages
+- `css/style.css` — shared styles, including the dark/glass theme and the per-page (`body[data-page]`) background photo
+- `js/main.js` — shared nav + data-rendering helpers, plus the EN / PT-BR language toggle (`t()`, `tf()`, `data-pt` attributes)
+- `data/*.json` — one JSON file per section; each page reads its file(s) and renders cards
+- `images/backgrounds/` — the full-bleed hero photo used across pages
 - `source-material/` — photos/notes with raw info to be transcribed into `data/*.json` (not for direct publishing, just working source)
 
 ## Viewing locally
@@ -24,8 +26,8 @@ then visit `http://localhost:8000`.
 
 ## Adding content
 
-Add a new object to the relevant `data/*.json` file (and a photo under `source-material/<section>/` if relevant) — no other changes needed, the page picks it up automatically.
+Add a new object to the relevant `data/*.json` file (and a photo under `source-material/<section>/` if relevant) — no other changes needed, the page picks it up automatically. For PT-BR, add a `<field>_pt` sibling to a JSON item's field when it needs its own translation (see `js/main.js`'s `tf()`); static page copy is translated via `data-pt` attributes directly in the HTML.
 
-## About page and social card
+## About page
 
-`about.html` and the `og:image`/`twitter:image` meta tags reference `images/about.jpg` and `images/social-card.jpg`, which aren't included yet — add those photos under `images/` once you have them.
+`about.html`'s intro paragraph is a placeholder ("Add your story here.") — write the actual story in both `data-pt` (PT-BR) and the element body (EN) when ready.

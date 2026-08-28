@@ -4,50 +4,274 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About · Wine Pantry</title>
-  <meta name="description" content="The story behind Wine Pantry.">
+  <meta name="description" content="The story behind Wine Pantry, plus charcuterie boards, cookbook pairings, wine bars visited, favorite grapes and regions, and references worth checking out.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Wine Pantry">
   <meta property="og:title" content="About · Wine Pantry">
-  <meta property="og:description" content="The story behind Wine Pantry.">
+  <meta property="og:description" content="The story behind Wine Pantry, plus charcuterie boards, cookbook pairings, wine bars visited, favorite grapes and regions, and references worth checking out.">
   <meta property="og:url" content="https://datameneses.github.io/wine-pantry/about.html">
   <meta property="og:image" content="https://datameneses.github.io/wine-pantry/images/social-card.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="About · Wine Pantry">
-  <meta name="twitter:description" content="The story behind Wine Pantry.">
+  <meta name="twitter:description" content="The story behind Wine Pantry, plus charcuterie boards, cookbook pairings, wine bars visited, favorite grapes and regions, and references worth checking out.">
   <meta name="twitter:image" content="https://datameneses.github.io/wine-pantry/images/social-card.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
-<body>
+<body data-page="about">
   <header class="site-header">
     <a class="brand" href="index.html">Wine Pantry</a>
     <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     <nav class="site-nav">
-      <a href="index.html">Wines</a>
-      <a href="boards.html">Boards</a>
-      <a href="cookbook.html">Cookbook</a>
-      <a href="winebars.html">Wine Bars</a>
-      <a href="grapes.html">Grapes</a>
-      <a href="regions.html">Regions</a>
-      <a href="references.html">References</a>
-      <a href="about.html">About</a>
+      <a href="index.html" data-pt="Vinhos">Wines</a>
+      <a href="about.html" data-pt="Sobre">About</a>
+      <div class="lang-toggle-group">
+        <button class="lang-toggle active" data-lang="en" type="button">EN</button>
+        <button class="lang-toggle" data-lang="pt" type="button">PT-BR</button>
+      </div>
     </nav>
   </header>
 
   <main>
-    <h1>About</h1>
-    <div class="about-layout">
-      <img class="about-photo" src="images/about.jpg" alt="">
-      <div class="about-text">
-        <p>Add your story here.</p>
-      </div>
+    <h1 data-pt="Sobre">About</h1>
+    <div class="about-text">
+      <p data-pt="Adicione sua história aqui.">Add your story here.</p>
     </div>
+
+    <hr class="section-divider">
+
+    <h2 data-pt="Tábuas">Boards</h2>
+    <p class="page-intro" data-pt="Combinações de tábuas de frios e os vinhos que harmonizam bem com elas.">Charcuterie board combinations and the wines that pair well with them.</p>
+    <div class="card-grid recipe-grid" id="boards-list"></div>
+
+    <hr class="section-divider">
+
+    <h2 data-pt="Receitas">Cookbook</h2>
+    <p class="page-intro" data-pt="Receitas de pratos principais e os vinhos que harmonizam bem com eles.">Main course recipes and the wines that pair well with them.</p>
+    <div class="card-grid recipe-grid" id="cookbook-list"></div>
+
+    <hr class="section-divider">
+
+    <h2 data-pt="Wine Bars">Wine Bars</h2>
+    <p class="page-intro" data-pt="Wine bars visitados.">Wine bars visited.</p>
+    <div class="map-panel" id="winebars-map"></div>
+    <div class="card-grid" id="winebars-list"></div>
+
+    <hr class="section-divider">
+
+    <h2 data-pt="Uvas">Grapes</h2>
+    <p class="page-intro" data-pt="Variedades de uva favoritas que vale a pena conhecer.">Favorite grape varieties worth knowing.</p>
+    <div class="card-grid" id="grapes-list"></div>
+
+    <hr class="section-divider">
+
+    <h2 data-pt="Regiões">Regions</h2>
+    <p class="page-intro" data-pt="Regiões vinícolas favoritas que vale a pena conhecer.">Favorite wine regions worth knowing.</p>
+    <div class="card-grid" id="regions-list"></div>
+
+    <hr class="section-divider">
+
+    <h2 data-pt="Referências">References</h2>
+    <p class="page-intro" data-pt="Pessoas, livros e canais que vale a pena conhecer.">People, books, and channels worth checking out.</p>
+    <div class="card-grid" id="references-list"></div>
   </main>
 
-  <footer class="site-footer">Wine Pantry (a personal project)</footer>
+  <footer class="site-footer" data-pt="Wine Pantry (um projeto pessoal)">Wine Pantry (a personal project)</footer>
   <script src="js/main.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // --- Shared recipe-style helpers (Boards + Cookbook) ---
+    function renderSteps(steps, stepsPt) {
+      if (!steps || !steps.length) return "";
+      const items = steps
+        .map((s, i) => {
+          const rawLabel = tLabel(s.label);
+          const label = rawLabel.charAt(0).toUpperCase() + rawLabel.slice(1);
+          const detail = stepsPt && stepsPt[i] ? tPick(s.detail, stepsPt[i].detail) : s.detail;
+          return `<div class="step"><strong>${i + 1}. ${label}:</strong> ${detail}</div>`;
+        })
+        .join("");
+      return `<div class="step-list">${items}</div>`;
+    }
+
+    function renderSubList(title, items, itemsPt) {
+      if (!items || !items.length) return "";
+      const list = getLang() === "pt" && itemsPt && itemsPt.length ? itemsPt : items;
+      const rows = list.map((i) => `<li>${i}</li>`).join("");
+      return `<p class="sub-heading">${t(title)}</p><ul class="tip-list">${rows}</ul>`;
+    }
+
+    function renderPairing(pairing) {
+      if (!pairing) return "";
+      const wineLabel = pairing.wine ? `<strong>${pairing.wine}</strong>` : "";
+      const notes = pairing.notes ? tPick(pairing.notes, pairing.notes_pt) : "";
+      return `<div class="pairing-note">${wineLabel}${wineLabel && notes ? " — " : ""}${notes}</div>`;
+    }
+
+    // --- Boards ---
+    function renderComponents(components) {
+      if (!components || !components.length) return "";
+      return components.map((group) => renderSubList(group.category, group.items, group.items_pt)).join("");
+    }
+
+    function boardTemplate(item) {
+      return `
+        <article class="card recipe-card">
+          <div class="recipe-title-row">
+            ${item.icon ? `<img class="recipe-icon" src="${item.icon}" alt="">` : ""}
+            <h3>${tf(item, "name")}</h3>
+          </div>
+          ${item.serves ? `<p class="card-meta">${tf(item, "serves")}</p>` : ""}
+          ${renderComponents(item.components)}
+          ${renderSteps(item.steps, item.steps_pt)}
+          ${renderSubList("Tips", item.tips, item.tips_pt)}
+          ${item.pairing ? `<p class="sub-heading">${t("Wine pairing")}</p>${renderPairing(item.pairing)}` : ""}
+        </article>
+      `;
+    }
+
+    loadAndRender("data/boards.json", "boards-list", boardTemplate);
+
+    // --- Cookbook ---
+    function cookbookTemplate(item) {
+      const meta = [
+        tf(item, "serves"),
+        item.prepTime ? `${t("Prep")}: ${item.prepTime}` : "",
+        item.cookTime ? `${t("Cook")}: ${item.cookTime}` : ""
+      ].filter(Boolean).join(" · ");
+      return `
+        <article class="card recipe-card">
+          <div class="recipe-title-row">
+            ${item.icon ? `<img class="recipe-icon" src="${item.icon}" alt="">` : ""}
+            <h3>${tf(item, "name")}</h3>
+          </div>
+          ${meta ? `<p class="card-meta">${meta}</p>` : ""}
+          ${renderSubList("Ingredients", item.ingredients, item.ingredients_pt)}
+          ${renderSteps(item.steps, item.steps_pt)}
+          ${renderSubList("Tips", item.tips, item.tips_pt)}
+          ${item.pairing ? `<p class="sub-heading">${t("Wine pairing")}</p>${renderPairing(item.pairing)}` : ""}
+        </article>
+      `;
+    }
+
+    loadAndRender("data/cookbook.json", "cookbook-list", cookbookTemplate);
+
+    // --- Wine Bars ---
+    function googleMapsUrl(item) {
+      const query = encodeURIComponent(item.location ? `${item.name}, ${item.location}` : item.name);
+      return `https://www.google.com/maps/search/?api=1&query=${query}`;
+    }
+
+    function winebarTemplate(item) {
+      return `
+        <article class="card">
+          ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
+          <h3>${item.name}</h3>
+          <p class="card-meta">${item.location || ""}</p>
+          ${item.dateVisited ? `<p class="card-meta">${t("Visited")}: ${item.dateVisited}</p>` : ""}
+          ${item.rating ? `<p class="card-meta">${t("Rating")}: ${item.rating}</p>` : ""}
+          ${item.notes ? `<p>${tf(item, "notes")}</p>` : ""}
+          <p class="card-meta"><a href="${googleMapsUrl(item)}" target="_blank" rel="noopener">${t("Open in Google Maps")}</a></p>
+        </article>
+      `;
+    }
+
+    function renderMap(winebars) {
+      const mapEl = document.getElementById("winebars-map");
+      const pinned = winebars.filter((w) => typeof w.lat === "number" && typeof w.lng === "number");
+
+      if (!pinned.length) {
+        mapEl.outerHTML = `<p class="empty-state">${t("No wine bars pinned yet.")}</p>`;
+        return;
+      }
+
+      const map = L.map(mapEl);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
+        maxZoom: 19
+      }).addTo(map);
+
+      pinned.forEach((w) => {
+        L.marker([w.lat, w.lng]).addTo(map).bindPopup(
+          `<strong>${w.name}</strong><br>${w.location || ""}<br><a href="${googleMapsUrl(w)}" target="_blank" rel="noopener">Open in Google Maps</a>`
+        );
+      });
+
+      if (pinned.length === 1) {
+        map.setView([pinned[0].lat, pinned[0].lng], 15);
+      } else {
+        map.fitBounds(L.latLngBounds(pinned.map((w) => [w.lat, w.lng])), { padding: [30, 30] });
+      }
+    }
+
+    let winebarsData = [];
+
+    function renderWinebarsList() {
+      const list = document.getElementById("winebars-list");
+      list.innerHTML = winebarsData.length
+        ? winebarsData.map(winebarTemplate).join("")
+        : `<p class="empty-state">${t("Nothing here yet.")}</p>`;
+    }
+
+    fetch("data/winebars.json")
+      .then((res) => res.json())
+      .then((winebars) => {
+        winebarsData = winebars;
+        renderMap(winebars);
+        renderWinebarsList();
+      })
+      .catch((err) => {
+        console.error("Failed to load data/winebars.json", err);
+        document.getElementById("winebars-list").innerHTML =
+          `<p class="empty-state">${t("Could not load data. If you're viewing this via file://, try running a local server (e.g. <code>python3 -m http.server</code>) instead.")}</p>`;
+      });
+
+    document.addEventListener("langchange", renderWinebarsList);
+
+    // --- Grapes ---
+    loadAndRender("data/grapes.json", "grapes-list", (item) => `
+      <article class="card">
+        ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
+        <h3>${item.name}</h3>
+        <p class="card-meta">${[item.color, item.origin].filter(Boolean).join(" · ")}</p>
+        ${item.link ? `<p class="card-meta"><a href="${item.link}" target="_blank" rel="noopener">${t("Learn more")}</a></p>` : ""}
+        ${item.why ? `<p>${tf(item, "why")}</p>` : ""}
+      </article>
+    `);
+
+    // --- Regions ---
+    loadAndRender("data/regions.json", "regions-list", (item) => `
+      <article class="card">
+        ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
+        <h3>${item.name}</h3>
+        <p class="card-meta">${item.country || ""}</p>
+        ${item.link ? `<p class="card-meta"><a href="${item.link}" target="_blank" rel="noopener">${t("Learn more")}</a></p>` : ""}
+        ${item.why ? `<p>${tf(item, "why")}</p>` : ""}
+      </article>
+    `);
+
+    // --- References ---
+    function renderBooks(books) {
+      if (!books || !books.length) return "";
+      const links = books
+        .map((b) => `<a href="${b.url}" target="_blank" rel="noopener">${b.title}</a>`)
+        .join(" · ");
+      return `<p class="card-meta">${t("Books")}: ${links}</p>`;
+    }
+
+    loadAndRender("data/references.json", "references-list", (item) => `
+      <article class="card">
+        <h3>${item.name}</h3>
+        ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
+        ${item.link ? `<p class="card-meta"><a href="${item.link}" target="_blank" rel="noopener">${item.platform || t("Link")} ${t("channel")}</a></p>` : ""}
+        ${renderBooks(item.books)}
+        ${item.why ? `<p>${tf(item, "why")}</p>` : ""}
+      </article>
+    `);
+  </script>
 </body>
 </html>

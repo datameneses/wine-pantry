@@ -4,72 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wine Pantry</title>
-  <meta name="description" content="A personal archive of wines tried, charcuterie boards, main course pairings, and wine bars worth visiting.">
+  <meta name="description" content="A personal archive of wines tried at home, tasting notes, and a wishlist of what's next.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Wine Pantry">
   <meta property="og:title" content="Wine Pantry">
-  <meta property="og:description" content="A personal archive of wines tried, charcuterie boards, main course pairings, and wine bars worth visiting.">
+  <meta property="og:description" content="A personal archive of wines tried at home, tasting notes, and a wishlist of what's next.">
   <meta property="og:url" content="https://datameneses.github.io/wine-pantry/">
   <meta property="og:image" content="https://datameneses.github.io/wine-pantry/images/social-card.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Wine Pantry">
-  <meta name="twitter:description" content="A personal archive of wines tried, charcuterie boards, main course pairings, and wine bars worth visiting.">
+  <meta name="twitter:description" content="A personal archive of wines tried at home, tasting notes, and a wishlist of what's next.">
   <meta name="twitter:image" content="https://datameneses.github.io/wine-pantry/images/social-card.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-page="wines">
   <header class="site-header">
     <a class="brand" href="index.html">Wine Pantry</a>
     <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     <nav class="site-nav">
-      <a href="index.html">Wines</a>
-      <a href="boards.html">Boards</a>
-      <a href="cookbook.html">Cookbook</a>
-      <a href="winebars.html">Wine Bars</a>
-      <a href="grapes.html">Grapes</a>
-      <a href="regions.html">Regions</a>
-      <a href="references.html">References</a>
-      <a href="about.html">About</a>
+      <a href="index.html" data-pt="Vinhos">Wines</a>
+      <a href="about.html" data-pt="Sobre">About</a>
+      <div class="lang-toggle-group">
+        <button class="lang-toggle active" data-lang="en" type="button">EN</button>
+        <button class="lang-toggle" data-lang="pt" type="button">PT-BR</button>
+      </div>
     </nav>
   </header>
 
   <main>
-    <h1>Wines</h1>
-    <p class="page-intro">Wines tried at home.</p>
+    <h1 data-pt="Vinhos">Wines</h1>
+    <p class="page-intro" data-pt="Vinhos experimentados em casa.">Wines tried at home.</p>
 
     <div class="dashboard" id="wines-dashboard"></div>
 
     <div class="toolbar">
       <div class="toolbar-group">
-        <span class="toolbar-label">Sort by:</span>
-        <button class="toolbar-btn" data-sort="country" type="button">Country</button>
-        <button class="toolbar-btn" data-sort="winery" type="button">Winery</button>
-        <button class="toolbar-btn" data-sort="type" type="button">Type</button>
-        <button class="toolbar-btn active" data-sort="rating" type="button">My Rating</button>
+        <span class="toolbar-label" data-pt="Ordenar por:">Sort by:</span>
+        <button class="toolbar-btn" data-sort="country" type="button" data-pt="País">Country</button>
+        <button class="toolbar-btn" data-sort="winery" type="button" data-pt="Vinícola">Winery</button>
+        <button class="toolbar-btn" data-sort="type" type="button" data-pt="Tipo">Type</button>
+        <button class="toolbar-btn active" data-sort="rating" type="button" data-pt="Minha nota">My Rating</button>
       </div>
       <div class="toolbar-group">
-        <span class="toolbar-label">Filter:</span>
-        <select id="filter-country"><option value="">All countries</option></select>
-        <select id="filter-winery"><option value="">All wineries</option></select>
-        <select id="filter-type"><option value="">All types</option></select>
+        <span class="toolbar-label" data-pt="Filtro:">Filter:</span>
+        <select id="filter-country"><option value="" data-pt="Todos os países">All countries</option></select>
+        <select id="filter-winery"><option value="" data-pt="Todas as vinícolas">All wineries</option></select>
+        <select id="filter-type"><option value="" data-pt="Todos os tipos">All types</option></select>
         <select id="filter-world">
-          <option value="">All origins</option>
-          <option value="Old World">Old World</option>
-          <option value="New World">New World</option>
+          <option value="" data-pt="Todas as origens">All origins</option>
+          <option value="Old World" data-pt="Velho Mundo">Old World</option>
+          <option value="New World" data-pt="Novo Mundo">New World</option>
         </select>
         <select id="filter-rating">
-          <option value="">All ratings</option>
-          <option value="exceptional">Exceptional (4.5+)</option>
-          <option value="great">Great (4.0–4.4)</option>
-          <option value="average">Average (3.6–3.9)</option>
-          <option value="low">Low (≤3.5)</option>
-          <option value="unrated">Not yet rated</option>
+          <option value="" data-pt="Todas as notas">All ratings</option>
+          <option value="exceptional" data-pt="Excepcional (4.5+)">Exceptional (4.5+)</option>
+          <option value="great" data-pt="Ótima (4.0–4.4)">Great (4.0–4.4)</option>
+          <option value="average" data-pt="Média (3.6–3.9)">Average (3.6–3.9)</option>
+          <option value="low" data-pt="Baixa (≤3.5)">Low (≤3.5)</option>
+          <option value="unrated" data-pt="Ainda não avaliado">Not yet rated</option>
         </select>
-        <button class="toolbar-btn" id="reset-filters" type="button">Reset</button>
+        <button class="toolbar-btn" id="reset-filters" type="button" data-pt="Redefinir">Reset</button>
       </div>
     </div>
 
@@ -77,12 +75,12 @@
 
     <hr class="section-divider">
 
-    <h2>Wishlist</h2>
-    <p class="page-intro">Wines I want to try next.</p>
+    <h2 data-pt="Lista de desejos">Wishlist</h2>
+    <p class="page-intro" data-pt="Vinhos que eu quero experimentar em seguida.">Wines I want to try next.</p>
     <div class="wishlist-grid" id="wishlist-list"></div>
   </main>
 
-  <footer class="site-footer">Wine Pantry (a personal project)</footer>
+  <footer class="site-footer" data-pt="Wine Pantry (um projeto pessoal)">Wine Pantry (a personal project)</footer>
   <script src="js/main.js"></script>
   <script>
     const TYPE_ORDER = ["White", "Orange", "Rosé", "Red", "Sparkling", "Dessert"];
@@ -90,7 +88,7 @@
       "White": "#E9DFA6",
       "Orange": "#E2872F",
       "Rosé": "#E8A0A0",
-      "Red": "#7B1E3A",
+      "Red": "#C0355A",
       "Sparkling": "#D4AF37",
       "Dessert": "#8B5E3C"
     };
@@ -127,7 +125,7 @@
 
     function renderTypeChart(counts) {
       const typesByCount = TYPE_ORDER.slice().sort((a, b) => (counts[b] || 0) - (counts[a] || 0));
-      const max = Math.max(...typesByCount.map((t) => counts[t] || 0), 1);
+      const max = Math.max(...typesByCount.map((ty) => counts[ty] || 0), 1);
       const cols = typesByCount
         .map((type) => {
           const value = counts[type] || 0;
@@ -138,12 +136,12 @@
                 <span class="vbar-value">${value}</span>
                 <div class="vbar-fill" style="height:${heightPct}%; background:${TYPE_COLORS[type]}"></div>
               </div>
-              <span class="vbar-label">${type}</span>
+              <span class="vbar-label">${t(type)}</span>
             </div>
           `;
         })
         .join("");
-      return `<div class="dashboard-card"><p class="dashboard-title">Wines by Type</p><div class="vbar-chart">${cols}</div></div>`;
+      return `<div class="dashboard-card"><p class="dashboard-title">${t("Wines by Type")}</p><div class="vbar-chart">${cols}</div></div>`;
     }
 
     function renderDonutChart(counts) {
@@ -162,14 +160,14 @@
         })
         .join(", ");
       const legend = order
-        .map((key) => `<li><span class="swatch" style="background:${colors[key]}"></span>${key} (${counts[key] || 0})</li>`)
+        .map((key) => `<li><span class="swatch" style="background:${colors[key]}"></span>${t(key)} (${counts[key] || 0})</li>`)
         .join("");
       return `
         <div class="dashboard-card">
-          <p class="dashboard-title">Wines by Origin</p>
+          <p class="dashboard-title">${t("Wines by Origin")}</p>
           <div class="donut-wrap">
             <div class="donut" style="background: conic-gradient(${segments})" title="Old World: ${counts["Old World"] || 0}, New World: ${counts["New World"] || 0}">
-              <div class="donut-hole"><span>${total}</span><small>wines</small></div>
+              <div class="donut-hole"><span>${total}</span><small>${t("wines")}</small></div>
             </div>
             <ul class="donut-legend">${legend}</ul>
           </div>
@@ -185,35 +183,38 @@
       const byWorld = countBy(data, (w) => w.worldStyle);
 
       document.getElementById("wines-dashboard").innerHTML =
-        renderHBarChart("Wines by Country", byCountry) +
-        renderHBarChart("Wines by Winery", byWineryRepeat) +
+        renderHBarChart(t("Wines by Country"), byCountry) +
+        renderHBarChart(t("Wines by Winery"), byWineryRepeat) +
         renderTypeChart(byType) +
         renderDonutChart(byWorld);
     }
 
     function renderOrigin(origin) {
       if (!origin) return "";
-      const countryLine = origin.country ? `<li><strong>Country:</strong> ${origin.country}</li>` : "";
-      const regionLine = origin.region ? `<li><strong>Region:</strong> ${origin.region}</li>` : "";
-      const producerLine = origin.producer ? `<li><strong>Producer:</strong> ${origin.producer}</li>` : "";
+      const countryLine = origin.country ? `<li><strong>${t("Country")}:</strong> ${origin.country}</li>` : "";
+      const regionLine = origin.region ? `<li><strong>${t("Region")}:</strong> ${origin.region}</li>` : "";
+      const producerLine = origin.producer ? `<li><strong>${t("Producer")}:</strong> ${origin.producer}</li>` : "";
       return countryLine + regionLine + producerLine;
     }
 
     function field(label, value) {
-      return value ? `<li><strong>${label}:</strong> ${value}</li>` : "";
+      return value ? `<li><strong>${t(label)}:</strong> ${value}</li>` : "";
     }
 
     function formatDate(iso) {
       if (!iso) return "";
       const [y, m, d] = iso.split("-").map(Number);
-      return new Date(y, m - 1, d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+      const date = new Date(y, m - 1, d);
+      return getLang() === "pt"
+        ? date.toLocaleDateString("pt-BR", { year: "numeric", month: "short", day: "numeric" })
+        : date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
     }
 
     function renderWineryLink(item) {
       const links = [];
       if (item.wineryUrl) links.push(`<a href="${item.wineryUrl}" target="_blank" rel="noopener">${item.winery}</a>`);
       if (item.productUrl) links.push(`<a href="${item.productUrl}" target="_blank" rel="noopener">${item.name}</a>`);
-      return links.length ? `<p class="card-meta">Reference: ${links.join(" · ")}</p>` : "";
+      return links.length ? `<p class="card-meta">${t("Reference")}: ${links.join(" · ")}</p>` : "";
     }
 
     function ratingTag(rating) {
@@ -232,10 +233,10 @@
       if (typeof rating !== "number") {
         return `
           <div class="star-rating-row">
-            <div class="star-rating" aria-label="Not yet rated">
+            <div class="star-rating" aria-label="${t("Not yet rated")}">
               <span class="star-rating-track">★★★★★</span>
             </div>
-            <span class="rating-value empty-state">Not yet rated</span>
+            <span class="rating-value empty-state">${t("Not yet rated")}</span>
           </div>
         `;
       }
@@ -247,7 +248,7 @@
             <span class="star-rating-fill" style="width:${pct}%">★★★★★</span>
           </div>
           <span class="rating-value">${rating.toFixed(1)}</span>
-          <span class="rating-tag rating-tag-${ratingTag(rating).toLowerCase()}">${ratingTag(rating)}</span>
+          <span class="rating-tag rating-tag-${ratingTag(rating).toLowerCase()}">${t(ratingTag(rating))}</span>
         </div>
       `;
     }
@@ -262,13 +263,13 @@
           <div class="wine-details">
             <h3>${[item.winery, item.name].filter(Boolean).join(" - ")}</h3>
             ${renderRating(item.rating)}
-            ${item.tastingNotes && item.tastingNotes.length ? `<p class="card-meta">${item.tastingNotes.join(" · ")}</p>` : ""}
+            ${item.tastingNotes && item.tastingNotes.length ? `<p class="card-meta">${tf(item, "tastingNotes").join(" · ")}</p>` : ""}
             <ul class="spec-list">
               ${renderOrigin(item.origin)}
               ${field("Vintage", item.vintage)}
               ${field("Varietal", item.varietal)}
               ${field("Winemaking", item.process)}
-              ${field("Type", item.type)}
+              ${field("Type", t(item.type))}
               ${field("Cellaring", item.cellaring)}
               ${field("ABV", item.abv)}
               ${field("Serving temp", item.servingTemp)}
@@ -315,7 +316,7 @@
       const container = document.getElementById("wines-list");
       container.innerHTML = list.length
         ? list.map(wineTemplate).join("")
-        : '<p class="empty-state">No wines match these filters.</p>';
+        : `<p class="empty-state">${t("No wines match these filters.")}</p>`;
     }
 
     function populateSelect(id, values) {
@@ -337,7 +338,7 @@
         const wineries = [...new Set(data.map((w) => w.winery).filter(Boolean))].sort();
         const typeCounts = countBy(data, (w) => w.type);
         const typesPresent = TYPE_ORDER
-          .filter((t) => typeCounts[t])
+          .filter((ty) => typeCounts[ty])
           .sort((a, b) => typeCounts[b] - typeCounts[a]);
 
         populateSelect("filter-country", countries);
@@ -350,8 +351,13 @@
       .catch((err) => {
         console.error("Failed to load data/wines.json", err);
         document.getElementById("wines-list").innerHTML =
-          '<p class="empty-state">Could not load data. If you\'re viewing this via file://, try running a local server (e.g. <code>python3 -m http.server</code>) instead.</p>';
+          `<p class="empty-state">${t("Could not load data. If you're viewing this via file://, try running a local server (e.g. <code>python3 -m http.server</code>) instead.")}</p>`;
       });
+
+    document.addEventListener("langchange", () => {
+      renderDashboard(winesData);
+      applyAndRender();
+    });
 
     document.querySelectorAll(".toolbar-btn[data-sort]").forEach((btn) => {
       btn.addEventListener("click", () => {
