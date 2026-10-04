@@ -26,48 +26,44 @@
     <a class="brand" href="index.html">Wine Pantry</a>
     <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     <nav class="site-nav">
-      <a href="index.html" data-pt="Vinhos">Wines</a>
-      <a href="about.html" data-pt="Sobre">About</a>
-      <div class="lang-toggle-group">
-        <button class="lang-toggle active" data-lang="en" type="button">EN</button>
-        <button class="lang-toggle" data-lang="pt" type="button">PT-BR</button>
-      </div>
+      <a href="index.html">Wines</a>
+      <a href="about.html">About</a>
     </nav>
   </header>
 
   <main>
-    <h1 data-pt="Vinhos">Wines</h1>
-    <p class="page-intro" data-pt="Vinhos experimentados em casa.">Wines tried at home.</p>
+    <h1>Wines</h1>
+    <p class="page-intro">Wines tried at home.</p>
 
     <div class="dashboard" id="wines-dashboard"></div>
 
     <div class="toolbar">
       <div class="toolbar-group">
-        <span class="toolbar-label" data-pt="Ordenar por:">Sort by:</span>
-        <button class="toolbar-btn" data-sort="country" type="button" data-pt="País">Country</button>
-        <button class="toolbar-btn" data-sort="winery" type="button" data-pt="Vinícola">Winery</button>
-        <button class="toolbar-btn" data-sort="type" type="button" data-pt="Tipo">Type</button>
-        <button class="toolbar-btn active" data-sort="rating" type="button" data-pt="Minha nota">My Rating</button>
+        <span class="toolbar-label">Sort by:</span>
+        <button class="toolbar-btn" data-sort="country" type="button">Country</button>
+        <button class="toolbar-btn" data-sort="winery" type="button">Winery</button>
+        <button class="toolbar-btn" data-sort="type" type="button">Type</button>
+        <button class="toolbar-btn active" data-sort="rating" type="button">My Rating</button>
       </div>
       <div class="toolbar-group">
-        <span class="toolbar-label" data-pt="Filtro:">Filter:</span>
-        <select id="filter-country"><option value="" data-pt="Todos os países">All countries</option></select>
-        <select id="filter-winery"><option value="" data-pt="Todas as vinícolas">All wineries</option></select>
-        <select id="filter-type"><option value="" data-pt="Todos os tipos">All types</option></select>
+        <span class="toolbar-label">Filter:</span>
+        <select id="filter-country"><option value="">All countries</option></select>
+        <select id="filter-winery"><option value="">All wineries</option></select>
+        <select id="filter-type"><option value="">All types</option></select>
         <select id="filter-world">
-          <option value="" data-pt="Todas as origens">All origins</option>
-          <option value="Old World" data-pt="Velho Mundo">Old World</option>
-          <option value="New World" data-pt="Novo Mundo">New World</option>
+          <option value="">All origins</option>
+          <option value="Old World">Old World</option>
+          <option value="New World">New World</option>
         </select>
         <select id="filter-rating">
-          <option value="" data-pt="Todas as notas">All ratings</option>
-          <option value="exceptional" data-pt="Excepcional (4.5+)">Exceptional (4.5+)</option>
-          <option value="great" data-pt="Ótima (4.0–4.4)">Great (4.0–4.4)</option>
-          <option value="average" data-pt="Média (3.6–3.9)">Average (3.6–3.9)</option>
-          <option value="low" data-pt="Baixa (≤3.5)">Low (≤3.5)</option>
-          <option value="unrated" data-pt="Ainda não avaliado">Not yet rated</option>
+          <option value="">All ratings</option>
+          <option value="exceptional">Exceptional (4.5+)</option>
+          <option value="great">Great (4.0–4.4)</option>
+          <option value="average">Average (3.6–3.9)</option>
+          <option value="low">Low (≤3.5)</option>
+          <option value="unrated">Not yet rated</option>
         </select>
-        <button class="toolbar-btn" id="reset-filters" type="button" data-pt="Redefinir">Reset</button>
+        <button class="toolbar-btn" id="reset-filters" type="button">Reset</button>
       </div>
     </div>
 
@@ -75,12 +71,12 @@
 
     <hr class="section-divider">
 
-    <h2 data-pt="Lista de desejos">Wishlist</h2>
-    <p class="page-intro" data-pt="Vinhos que eu quero experimentar em seguida.">Wines I want to try next.</p>
+    <h2>Wishlist</h2>
+    <p class="page-intro">Wines I want to try next.</p>
     <div class="wishlist-grid" id="wishlist-list"></div>
   </main>
 
-  <footer class="site-footer" data-pt="Wine Pantry (um projeto pessoal)">Wine Pantry (a personal project)</footer>
+  <footer class="site-footer">Wine Pantry (a personal project)</footer>
   <script src="js/main.js"></script>
   <script>
     const TYPE_ORDER = ["White", "Orange", "Rosé", "Red", "Sparkling", "Dessert"];
@@ -205,9 +201,7 @@
       if (!iso) return "";
       const [y, m, d] = iso.split("-").map(Number);
       const date = new Date(y, m - 1, d);
-      return getLang() === "pt"
-        ? date.toLocaleDateString("pt-BR", { year: "numeric", month: "short", day: "numeric" })
-        : date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+      return date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
     }
 
     function renderWineryLink(item) {
@@ -353,11 +347,6 @@
         document.getElementById("wines-list").innerHTML =
           `<p class="empty-state">${t("Could not load data. If you're viewing this via file://, try running a local server (e.g. <code>python3 -m http.server</code>) instead.")}</p>`;
       });
-
-    document.addEventListener("langchange", () => {
-      renderDashboard(winesData);
-      applyAndRender();
-    });
 
     document.querySelectorAll(".toolbar-btn[data-sort]").forEach((btn) => {
       btn.addEventListener("click", () => {
